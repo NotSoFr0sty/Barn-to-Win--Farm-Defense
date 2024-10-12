@@ -9,6 +9,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     public GameObject bulletPrefab;
+    public GameObject lastShotBullet;
     public float speed;
     [SerializeField] private float movementSmoothing;
     [Range(0.0f, 18.0f)] public float xRange = 15.0f; // Maximum x-axis distance the player can travel from the origin
@@ -138,7 +139,7 @@ public class PlayerController : MonoBehaviour {
         isOnCooldown = true;
 
         // Spawn bullet
-        Instantiate(bulletPrefab, transform.position + new Vector3(0, 1.55f, 0.56f), bulletPrefab.transform.rotation);
+        lastShotBullet = Instantiate(bulletPrefab, transform.position + new Vector3(0, 1.55f, 0.56f), bulletPrefab.transform.rotation);
 
         yield return new WaitForSeconds(1 / fireRate);
 

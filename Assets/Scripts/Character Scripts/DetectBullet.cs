@@ -8,6 +8,7 @@ public class DetectBullet : MonoBehaviour {
     private HealthController thisHealthController;
     private HealthController bulletHealthController;
     private HealthController playerHealthController;
+    private PlayerController playerController;
     private Ballistics thisBallistics;
     [SerializeField][Range(0.0f, 1.0f)] private float speedChangeRatio = 0.5f;
 
@@ -16,6 +17,7 @@ public class DetectBullet : MonoBehaviour {
     void Start() {
 
         thisHealthController = gameObject.GetComponent<HealthController>();
+        playerController = Component.FindAnyObjectByType<PlayerController>();
     }
 
     // Update is called once per frame
@@ -50,8 +52,8 @@ public class DetectBullet : MonoBehaviour {
         }
         else if (other.CompareTag("PlayerMelee")) {
 
-            // // Destroy this animal
-            // Destroy(gameObject);
+            // Destroy the last shot bullet
+            Destroy(playerController.lastShotBullet);
 
             // Reduce its speed
             thisBallistics.speed *= speedChangeRatio;

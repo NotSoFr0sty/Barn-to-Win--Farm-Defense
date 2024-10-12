@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void AdvanceToNextStage() {
-        // Returns true if the game advances to next stage
+        // Advances game to next stage
 
         // If maxDifficulty is reached or if the next stage is null, return false
         if (currentStageIndex >= maxDifficulty || stage[currentStageIndex + 1] == null) {
