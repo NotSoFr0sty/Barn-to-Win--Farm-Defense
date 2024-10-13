@@ -16,11 +16,12 @@ public class GameManager : MonoBehaviour {
     public GameObject[] stage;
     private GameObject currentStage;
     private int currentStageIndex;
-    private int maxDifficulty = 3;
+    public int maxDifficulty = 3;
     public int[] scoreRequirementForClearingStage;
     public ScoreTracker scoreTracker;
     private int score;
     [SerializeField] private bool skipTutorial = false;
+    public int skipToStage = 0;
 
 
     // Start is called before the first frame update
@@ -28,9 +29,9 @@ public class GameManager : MonoBehaviour {
 
         if (skipTutorial) {
 
-            currentStageIndex = 1;
+            skipToStage = 1;
         }
-        else currentStageIndex = 0;
+        else currentStageIndex = skipToStage;
 
         currentStage = stage[currentStageIndex];
 
