@@ -1631,7 +1631,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animalPrefabs:
   - {fileID: 8363149939787483280, guid: 87f07781a0107c947b43c82a82e5c6c4, type: 3}
-  startDelay: 8
+  startDelay: 10.5
   spawnInterval: 5
   isVerticalSpawner: 1
   isShaped: 0
@@ -3036,7 +3036,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animalPrefabs:
   - {fileID: 8363149939787483280, guid: 87f07781a0107c947b43c82a82e5c6c4, type: 3}
-  startDelay: 3
+  startDelay: 5.5
   spawnInterval: 5
   isVerticalSpawner: 1
   isShaped: 0
@@ -3447,8 +3447,8 @@ MonoBehaviour:
   maxDifficulty: 10
   scoreRequirementForClearingStage: 00000000640000002c010000f40100008403000014050000
   scoreTracker: {fileID: 821936310}
-  skipTutorial: 1
-  skipToStage: 0
+  skipTutorial: 0
+  skipToStage: 6
 --- !u!4 &622840168
 Transform:
   m_ObjectHideFlags: 0
