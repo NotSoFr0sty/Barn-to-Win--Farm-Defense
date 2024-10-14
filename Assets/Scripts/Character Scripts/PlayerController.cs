@@ -14,8 +14,8 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private float movementSmoothing;
     [Range(0.0f, 18.0f)] public float xRange = 15.0f; // Maximum x-axis distance the player can travel from the origin
     [Range(0.0f, 18.0f)] public float zRange = 15.0f; // Mzximum z-axis distance the player can travel from the origin
-    private float horizontalSmoothed = 0.0f;
-    private float verticalSmoothed = 0.0f;
+    // private float horizontalSmoothed = 0.0f;
+    // private float verticalSmoothed = 0.0f;
     private float elapsedTime = 0.0f;
     private CapsuleCollider proximityCollider;
     public GameObject meleeCollider;
@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject greenCircleOutline;
     Vector3 previousPosition = Vector3.zero;
     private Animator thisAnimator;
+    private Vector3 smoothedMovement = Vector3.zero;
 
     // Start is called before the first frame update
     void Start() {
@@ -63,8 +64,22 @@ public class PlayerController : MonoBehaviour {
 
         // Move the player side-to-side based on horizontal input
         float horizontalInput = Input.GetAxisRaw("Horizontal");
-        horizontalSmoothed = Mathf.Lerp(horizontalSmoothed, horizontalInput, movementSmoothing * Time.deltaTime);
-        transform.Translate(Vector3.right * horizontalSmoothed * speed * Time.deltaTime, Space.World);
+        // horizontalSmoothed = Mathf.Lerp(horizontalSmoothed, horizontalInput, movementSmoothing * Time.deltaTime);
+        // transform.Translate(Vector3.right * horizontalSmoothed * speed * Time.deltaTime, Space.World);
+
+        // Move the player forwards and backwards based on horizontal input
+        float verticalInput = Input.GetAxisRaw("Vertical");
+        // verticalSmoothed = Mathf.Lerp(verticalSmoothed, verticalInput, movementSmoothing * Time.deltaTime);
+        // transform.Translate(Vector3.forward * verticalSmoothed * speed * Time.deltaTime, Space.World);
+
+        Vector3 movement = new Vector3(horizontalInput, 0, verticalInput).normalized;
+        smoothedMovement = Vector3.Lerp(smoothedMovement, movement, movementSmoothing * Time.deltaTime);
+
+        transform.Translate(speed * Time.deltaTime * smoothedMovement, Space.World);
+
+
+
+
 
         // Constrict Player's x-axis position
         if (transform.position.x > xRange) {
@@ -73,11 +88,6 @@ public class PlayerController : MonoBehaviour {
         else if (transform.position.x < -xRange) {
             transform.position = new Vector3(-xRange, transform.position.y, transform.position.z);
         }
-
-        // Move the player forwards and backwards based on horizontal input
-        float verticalInput = Input.GetAxisRaw("Vertical");
-        verticalSmoothed = Mathf.Lerp(verticalSmoothed, verticalInput, movementSmoothing * Time.deltaTime);
-        transform.Translate(Vector3.forward * verticalSmoothed * speed * Time.deltaTime, Space.World);
 
         // Constrict Player's z-axis position
         if (transform.position.z > zRange) {
@@ -125,7 +135,7 @@ public class PlayerController : MonoBehaviour {
         if (thisAnimator != null) {
 
             thisAnimator.SetFloat("Speed_f", velocity.magnitude / 20);
-            Debug.Log(velocity.magnitude / 20);
+            // Debug.Log(velocity.magnitude / 20);
         }
 
     }
