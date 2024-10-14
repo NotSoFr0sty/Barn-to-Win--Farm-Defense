@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour {
     private float meleeEffectMinRadius = 0.23f;
     private float meleeEffectMaxRadius = 1.0f;
     public GameObject greenCircleOutline;
+    Vector3 previousPosition = Vector3.zero;
+    private Animator thisAnimator;
 
     // Start is called before the first frame update
     void Start() {
@@ -45,6 +47,9 @@ public class PlayerController : MonoBehaviour {
 
             meleeEffectMaxRadius = greenCircleOutline.transform.localScale.x;
         }
+
+        thisAnimator = GetComponent<Animator>();
+
     }
 
     // Update is called once per frame
@@ -110,6 +115,18 @@ public class PlayerController : MonoBehaviour {
             meleeEffect.transform.localScale = new Vector3(scale, scale, scale);
         }
 
+        // DEBUG VELOCITY
+        Vector3 currentPosition = transform.position;
+        Vector3 velocity = (currentPosition - previousPosition) / Time.deltaTime;
+        // Debug.Log(velocity.magnitude);
+        previousPosition = currentPosition;
+
+        // Update speed_f
+        if (thisAnimator != null) {
+
+            thisAnimator.SetFloat("Speed_f", velocity.magnitude / 20);
+            Debug.Log(velocity.magnitude / 20);
+        }
 
     }
 
@@ -135,6 +152,9 @@ public class PlayerController : MonoBehaviour {
 
     IEnumerator shootBullet() {
 
+        // Trigger throw animation
+        thisAnimator.SetBool("isThrowing", true);
+
         // Enter cooldown
         isOnCooldown = true;
 
@@ -145,6 +165,10 @@ public class PlayerController : MonoBehaviour {
 
         // Exit cooldown
         isOnCooldown = false;
+
+        // Stop throw animation
+        // yield return new WaitForSeconds(1);
+        thisAnimator.SetBool("isThrowing", false);
     }
 
     public void FreezePlayer() {
