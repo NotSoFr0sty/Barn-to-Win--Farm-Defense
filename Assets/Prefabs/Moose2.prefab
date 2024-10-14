@@ -828,7 +828,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cbeca9cdab8ec94fb5e0ba5a26cb6ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xPositionOfAlert: 16
+  xPositionOfAlert: 14.75
   alertSprite: {fileID: 8399432105310414513, guid: 5991ce89725586a4bba892af29e14e7d, type: 3}
   spriteDuration: 1
 --- !u!114 &4448235845072385516

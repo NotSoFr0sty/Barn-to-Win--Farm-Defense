@@ -8,7 +8,9 @@ public class AnimalSpawner : MonoBehaviour {
     public GameObject[] animalPrefabs;
     public float startDelay = 1.0f;
     public float spawnInterval = 1.0f;
-    public bool isVerticalSpawner = false; // TODO: also means spawnInterval is randomized each time
+    public bool isVerticalSpawner = false;
+    public bool isShaped = false;
+    public float speedModifier = 1.0f;
 
     // Start is called before the first frame update
     void Start() {
@@ -42,16 +44,22 @@ public class AnimalSpawner : MonoBehaviour {
         // Spawn
         if (isVerticalSpawner) {
 
-            Instantiate(animalPrefabs[animalIndex], transform.position + new Vector3(0, 0, Random.Range(0.45f, player.zRange)), transform.rotation);
+            GameObject spawn = Instantiate(animalPrefabs[animalIndex], transform.position + new Vector3(0, 0, Random.Range(0.45f, player.zRange)), transform.rotation);
+            spawn.GetComponent<Ballistics>().speed *= speedModifier;
         }
         else {
 
-            Instantiate(animalPrefabs[animalIndex], transform.position + new Vector3(Random.Range(-player.xRange, player.xRange), 0, 0), transform.rotation);
+            GameObject spawn = Instantiate(animalPrefabs[animalIndex], transform.position + new Vector3(Random.Range(-player.xRange, player.xRange), 0, 0), transform.rotation);
+            spawn.GetComponent<Ballistics>().speed *= speedModifier;
         }
 
         // invoke next spawnAnimal after some time
         if (isVerticalSpawner) {
-            Invoke("spawnAnimal", Random.Range(spawnInterval, spawnInterval + 5));
+            if (isShaped) {
+
+                Invoke("spawnAnimal", Random.Range(spawnInterval, spawnInterval));
+            }
+            else Invoke("spawnAnimal", Random.Range(spawnInterval, spawnInterval + 5));
         }
         else {
             // ...every spawnInterval seconds

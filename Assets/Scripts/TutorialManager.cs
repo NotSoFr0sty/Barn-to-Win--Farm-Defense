@@ -15,6 +15,11 @@ public class TutorialManager : MonoBehaviour {
     [SerializeField] float gapTime;
     [SerializeField] float text0Time;
 
+    void Awake() {
+
+        scoreTracker.gameObject.GetComponent<CanvasGroup>().alpha = 0;
+    }
+
     // Start is called before the first frame update
     void Start() {
 
@@ -53,7 +58,7 @@ public class TutorialManager : MonoBehaviour {
         playerController.enableShooter = true;
         tutorialText[index].SetActive(true);
         tutorialAnimals[1].SetActive(true);
-        while (score < 115) {
+        while (score < 105) {
             yield return null;
         }
         tutorialText[index].SetActive(false);
@@ -69,7 +74,9 @@ public class TutorialManager : MonoBehaviour {
         index++;
 
 
-        Debug.Log("Tutorial done.");
         tutorialFinished.Invoke();
+        Debug.Log("Tutorial done.");
+        scoreTracker.AddToScore(-105);
+        scoreTracker.gameObject.GetComponent<CanvasGroup>().alpha = 1;
     }
 }

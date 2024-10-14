@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour {
 
     // Stage management
     public GameObject[] stage;
-    private GameObject currentStage;
+    private GameObject currentStageGameObject;
     private int currentStageIndex;
     public int maxDifficulty = 3;
     public int[] scoreRequirementForClearingStage;
@@ -31,12 +31,16 @@ public class GameManager : MonoBehaviour {
 
             skipToStage = 1;
         }
-        else currentStageIndex = skipToStage;
+        currentStageIndex = skipToStage;
+        currentStageGameObject = stage[currentStageIndex];
 
-        currentStage = stage[currentStageIndex];
+        // Set score according to skipToStage
+        if (skipToStage > 1) {
+            scoreTracker.score = scoreRequirementForClearingStage[skipToStage - 1];
+        }
 
         // Set the currentStage active
-        if (currentStage != null) currentStage.SetActive(true);
+        if (currentStageGameObject != null) currentStageGameObject.SetActive(true);
     }
 
     // Update is called once per frame
@@ -61,9 +65,9 @@ public class GameManager : MonoBehaviour {
         // Track score
         if (scoreTracker != null) score = scoreTracker.score;
 
-        if (currentStageIndex == 1) {
+        if (currentStageIndex != 0 && currentStageIndex < stage.Length && currentStageIndex < scoreRequirementForClearingStage.Length) {
 
-            if (score >= scoreRequirementForClearingStage[1]) {
+            if (score >= scoreRequirementForClearingStage[currentStageIndex]) {
 
                 AdvanceToNextStage();
             }
@@ -101,20 +105,24 @@ public class GameManager : MonoBehaviour {
     public void AdvanceToNextStage() {
         // Advances game to next stage
 
-        // If maxDifficulty is reached or if the next stage is null, return false
-        if (currentStageIndex >= maxDifficulty || stage[currentStageIndex + 1] == null) {
-            return;
+        // // If maxDifficulty is reached or if the next stage is null, return false
+        // if (currentStageIndex >= maxDifficulty || stage[currentStageIndex + 1] == null) {
+        //     return;
+        // }
+
+        if (currentStageIndex < (stage.Length - 1)) {
+
+            // Deactivate currentStage
+            if (currentStageGameObject != null) currentStageGameObject.SetActive(false);
+
+            // Advance to next stage
+            currentStageIndex++;
+            currentStageGameObject = stage[currentStageIndex];
+
+            // Set the currentStage active
+            if (currentStageGameObject != null) currentStageGameObject.SetActive(true);
         }
 
-        // Deactivate currentStage
-        if (currentStage != null) currentStage.SetActive(false);
-
-        // Advance to next stage
-        currentStageIndex++;
-        currentStage = stage[currentStageIndex];
-
-        // Set the currentStage active
-        if (currentStage != null) currentStage.SetActive(true);
 
     }
 
