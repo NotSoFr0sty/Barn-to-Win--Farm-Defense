@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class KillVoume : MonoBehaviour {
 
-    [SerializeField] bool isBarn = false;
+    [SerializeField] bool isBarn = false; // AKA shouldKillFarmAnimal
 
     // Start is called before the first frame update
     void Start() {
