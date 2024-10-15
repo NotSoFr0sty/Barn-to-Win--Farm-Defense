@@ -1294,6 +1294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBarn: 1
+  isSideGuards: 1
 --- !u!65 &182493652
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1395,7 +1396,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!224 &183633267
 RectTransform:
@@ -3803,7 +3804,6 @@ MonoBehaviour:
   maxDifficulty: 10
   scoreRequirementForClearingStage: 00000000640000002c010000f40100008403000014050000a4060000fc080000
   scoreTracker: {fileID: 821936310}
-  skipTutorial: 0
   skipToStage: 0
   stageClearedText: {fileID: 1923776198}
   barnHealthController: {fileID: 1380465012}
@@ -3869,6 +3869,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBarn: 1
+  isSideGuards: 0
 --- !u!65 &628383804
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4832,6 +4833,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBarn: 1
+  isSideGuards: 0
 --- !u!65 &797581074
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8598,6 +8600,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBarn: 1
+  isSideGuards: 1
 --- !u!65 &1440024057
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11554,6 +11557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBarn: 0
+  isSideGuards: 0
 --- !u!1 &1917615927
 GameObject:
   m_ObjectHideFlags: 0

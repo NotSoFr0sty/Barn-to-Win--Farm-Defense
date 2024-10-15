@@ -61,6 +61,11 @@ public class PlayerController : MonoBehaviour {
             rb.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
             return;
         }
+        else {
+
+            rb.constraints = RigidbodyConstraints.None;
+            rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
+        }
 
         // Move the player side-to-side based on horizontal input
         float horizontalInput = Input.GetAxisRaw("Horizontal");

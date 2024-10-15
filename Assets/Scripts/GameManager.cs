@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour {
     public int[] scoreRequirementForClearingStage;
     public ScoreTracker scoreTracker;
     private int score;
-    [SerializeField] private bool skipTutorial = false;
+    [SerializeField] private static bool skipTutorial = false;
     public int skipToStage = 0;
     public TMP_Text stageClearedText;
     public HealthController barnHealthController;
@@ -87,6 +87,7 @@ public class GameManager : MonoBehaviour {
 
     public void RestartGame() {
 
+        skipTutorial = true;
         SceneManager.LoadScene(0);
         ResumeGame();
     }
@@ -136,7 +137,7 @@ public class GameManager : MonoBehaviour {
                 stageClearedText.text = String.Format("LEVEL {0} CLEARED", currentStageIndex - 1);
                 yield return new WaitForSeconds(2.0f);
 
-                //TODO: heal barn 50% of missing health OR heal barn fully
+                // heal barn 50% of missing health
                 bool barnHealed = barnHealthController.healForXPercentOfMissingHealth(healAmountPercentage);
 
                 if (barnHealed) stageClearedText.text += "\nBARN HEALED";
@@ -144,12 +145,12 @@ public class GameManager : MonoBehaviour {
                 stageClearedText.gameObject.SetActive(false);
             }
             else {
-                // Stage cleared text
+                // Tutorial finished text
                 stageClearedText.gameObject.SetActive(true);
                 stageClearedText.text = String.Format("DEFEND THE BARN", currentStageIndex - 1);
 
-                //TODO: heal barn 50% of missing health OR heal barn fully
-                bool barnHealed = barnHealthController.healForXPercentOfMissingHealth(healAmountPercentage);
+                // heal barn fully
+                bool barnHealed = barnHealthController.healForXPercentOfMissingHealth(100);
                 yield return new WaitForSeconds(3.0f);
                 stageClearedText.gameObject.SetActive(false);
             }

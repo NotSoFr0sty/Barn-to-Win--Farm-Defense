@@ -5,6 +5,7 @@ using UnityEngine;
 public class KillVoume : MonoBehaviour {
 
     [SerializeField] bool isBarn = false; // AKA shouldKillFarmAnimal
+    public bool isSideGuards = false;
 
     // Start is called before the first frame update
     void Start() {
@@ -18,7 +19,7 @@ public class KillVoume : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other) {
 
-        if (other.CompareTag("PlayerBullet") || other.CompareTag("Enemy")) {
+        if ((other.CompareTag("PlayerBullet") || other.CompareTag("Enemy")) && !isSideGuards) {
 
             // Destroy the PlayerBullet
             Destroy(other.gameObject);
