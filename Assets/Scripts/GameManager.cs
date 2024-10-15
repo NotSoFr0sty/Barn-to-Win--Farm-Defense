@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -22,6 +24,9 @@ public class GameManager : MonoBehaviour {
     private int score;
     [SerializeField] private bool skipTutorial = false;
     public int skipToStage = 0;
+    public TMP_Text stageClearedText;
+    public HealthController barnHealthController;
+    public float healAmountPercentage = 50;
 
 
     // Start is called before the first frame update
@@ -103,6 +108,10 @@ public class GameManager : MonoBehaviour {
     }
 
     public void AdvanceToNextStage() {
+        StartCoroutine("AdvanceToNextStageCoroutine");
+    }
+
+    IEnumerator AdvanceToNextStageCoroutine() {
         // Advances game to next stage
 
         // // If maxDifficulty is reached or if the next stage is null, return false
@@ -119,11 +128,36 @@ public class GameManager : MonoBehaviour {
             currentStageIndex++;
             currentStageGameObject = stage[currentStageIndex];
 
+            //TODO: Kill all clones
+
+            if (currentStageIndex > 1) {
+                // Stage cleared text
+                stageClearedText.gameObject.SetActive(true);
+                stageClearedText.text = String.Format("LEVEL {0} CLEARED", currentStageIndex - 1);
+                yield return new WaitForSeconds(2.0f);
+
+                //TODO: heal barn 50% of missing health OR heal barn fully
+                bool barnHealed = barnHealthController.healForXPercentOfMissingHealth(healAmountPercentage);
+
+                if (barnHealed) stageClearedText.text += "\nBARN HEALED";
+                yield return new WaitForSeconds(2.0f);
+                stageClearedText.gameObject.SetActive(false);
+            }
+            else {
+                // Stage cleared text
+                stageClearedText.gameObject.SetActive(true);
+                stageClearedText.text = String.Format("DEFEND THE BARN", currentStageIndex - 1);
+
+                //TODO: heal barn 50% of missing health OR heal barn fully
+                bool barnHealed = barnHealthController.healForXPercentOfMissingHealth(healAmountPercentage);
+                yield return new WaitForSeconds(3.0f);
+                stageClearedText.gameObject.SetActive(false);
+            }
+
             // Set the currentStage active
             if (currentStageGameObject != null) currentStageGameObject.SetActive(true);
+
         }
-
-
     }
 
 }

@@ -119,6 +119,21 @@ public class HealthController : MonoBehaviour {
         return health / maxHealth;
     }
 
+    public bool healForXPercentOfMissingHealth(float x = 50) {
+        // Heals the entity for X percent of its missing health
+        // Returns true if any healing was done
+
+        float missingHealth = maxHealth - health;
+        float xPercentOfMissingHealth = Mathf.Ceil(missingHealth * (x / 100));
+        health += xPercentOfMissingHealth;
+        if (health > maxHealth) health = maxHealth;
+        updateHealthBar();
+
+        if (xPercentOfMissingHealth == 0)
+            return false;
+        else return true;
+    }
+
     IEnumerator die() {
 
         isDead = true;

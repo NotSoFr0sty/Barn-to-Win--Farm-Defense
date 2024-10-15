@@ -47,6 +47,9 @@ public class WindowFire : MonoBehaviour {
 
             if (spriteRenderer != null) spriteRenderer.enabled = true;
         }
+        else {
+            if (spriteRenderer != null) spriteRenderer.enabled = false;
+        }
         healthPercentage /= showFirePercentage;
 
         // Set scale to gameOverScale when barn is destroyed
