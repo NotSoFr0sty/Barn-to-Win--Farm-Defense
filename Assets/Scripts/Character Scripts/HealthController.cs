@@ -107,7 +107,7 @@ public class HealthController : MonoBehaviour {
     }
 
     void updateHealthBar() {
-        if (isInvincible || healthBar == null) {
+        if (healthBar == null) {
             return;
         }
 

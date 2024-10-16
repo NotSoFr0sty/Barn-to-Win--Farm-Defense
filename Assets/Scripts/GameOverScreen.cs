@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,6 +10,7 @@ using UnityEngine.UI;
 public class GameOverScreen : MonoBehaviour {
 
     public TMP_Text gameOverScoreText;
+    public TMP_Text highscoreText;
     public TMP_Text messageText;
     private ScoreTracker scoreTracker;
     public GameObject restartButton;
@@ -17,6 +19,7 @@ public class GameOverScreen : MonoBehaviour {
     public UnityEvent restartGame;
     [SerializeField] float restartDelay = 2.0f;
     private bool canRestart = false;
+    int finalScore;
 
     // Start is called before the first frame update
     void Start() {
@@ -44,13 +47,37 @@ public class GameOverScreen : MonoBehaviour {
 
         scoreTracker = Component.FindObjectOfType<ScoreTracker>();
         if (scoreTracker == null) return;
-        gameOverScoreText.text = "SCORE: " + scoreTracker.score;
+        finalScore = scoreTracker.score;
+        gameOverScoreText.text = "SCORE: " + finalScore;
         messageText.text = message;
 
         // Now, disable the ScoreTracker gameObject
         scoreTracker.gameObject.SetActive(false);
 
+        // Debug.Log(String.Format("Highscore: {0}", PlayerPrefs.GetInt("Highscore")));
 
+        // If the score > highscore, then set score as the new highscore
+        if (finalScore > PlayerPrefs.GetInt("Highscore")) {
+
+            PlayerPrefs.SetInt("Highscore", finalScore);
+            highscoreText.text = "NEW HIGHSCORE: " + finalScore;
+            StartCoroutine("FlashHighscoreText");
+        }
+        else highscoreText.text = "HIGHSCORE: " + PlayerPrefs.GetInt("Highscore");
+
+
+    }
+
+    IEnumerator FlashHighscoreText() {
+
+        for (int i = 0; i < 5; i++) {
+
+            highscoreText.GetComponent<CanvasGroup>().alpha = 0;
+            yield return new WaitForSeconds(0.25f);
+
+            highscoreText.GetComponent<CanvasGroup>().alpha = 1;
+            yield return new WaitForSeconds(0.25f);
+        }
     }
 
     IEnumerator Delay() {

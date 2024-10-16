@@ -11,6 +11,7 @@ public class MooseLogic : MonoBehaviour {
     [SerializeField] private float rotationSpeed = 1.0f;
     [SerializeField] private float speedChangePercentage = 1.0f;
     private Rigidbody rb;
+    private GameManager gameManager;
 
     // Start is called before the first frame update
     void Start() {
@@ -19,6 +20,8 @@ public class MooseLogic : MonoBehaviour {
         thisBallistics = GetComponent<Ballistics>();
 
         rotationSpeed = thisBallistics.speed / 2;
+
+        gameManager = FindAnyObjectByType<GameManager>();
     }
 
     // Update is called once per frame
@@ -56,8 +59,8 @@ public class MooseLogic : MonoBehaviour {
             isTurning = true;
             hasTurned = true;
 
+            // Invoke moose warning text
+            gameManager.StartCoroutine("WarnAboutMoose");
         }
     }
-
-
 }

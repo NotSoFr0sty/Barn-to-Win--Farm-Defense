@@ -74,10 +74,10 @@ public class TutorialManager : MonoBehaviour {
         index++;
 
 
-        tutorialFinished.Invoke();
-        Debug.Log("Tutorial done.");
         scoreTracker.AddToScore(-105);
-        yield return new WaitForSeconds(3.0f);
-        scoreTracker.gameObject.GetComponent<CanvasGroup>().alpha = 1;
+        Debug.Log("Tutorial done.");
+        tutorialFinished.Invoke();
+        // yield return new WaitForSeconds(3.0f);
+        // scoreTracker.gameObject.GetComponent<CanvasGroup>().alpha = 1;
     }
 }

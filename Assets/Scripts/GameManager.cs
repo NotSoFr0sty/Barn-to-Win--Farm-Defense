@@ -26,7 +26,12 @@ public class GameManager : MonoBehaviour {
     public int skipToStage = 0;
     public TMP_Text stageClearedText;
     public HealthController barnHealthController;
+    public HealthController playerHealthController;
     public float healAmountPercentage = 50;
+    public GameObject mooseWarning;
+    public int numberOfBlinks = 4;
+    public float blinkDurationOn = 0.30f;
+    public float blinkDurationOff = 0.20f;
 
 
     // Start is called before the first frame update
@@ -129,13 +134,23 @@ public class GameManager : MonoBehaviour {
             currentStageIndex++;
             currentStageGameObject = stage[currentStageIndex];
 
-            //TODO: Kill all clones
-
             if (currentStageIndex > 1) {
+                // make player invincible
+                playerHealthController.isInvincible = true;
+
                 // Stage cleared text
                 stageClearedText.gameObject.SetActive(true);
                 stageClearedText.text = String.Format("LEVEL {0} CLEARED", currentStageIndex - 1);
                 yield return new WaitForSeconds(2.0f);
+
+                // Destroy all farmAnimals
+                GameObject[] farmAnimals = GameObject.FindGameObjectsWithTag("FarmAnimal");
+                foreach (GameObject animal in farmAnimals) {
+                    Destroy(animal);
+                }
+
+                // Fully heal player
+                playerHealthController.healForXPercentOfMissingHealth(100);
 
                 // heal barn 50% of missing health
                 bool barnHealed = barnHealthController.healForXPercentOfMissingHealth(healAmountPercentage);
@@ -143,21 +158,40 @@ public class GameManager : MonoBehaviour {
                 if (barnHealed) stageClearedText.text += "\nBARN HEALED";
                 yield return new WaitForSeconds(2.0f);
                 stageClearedText.gameObject.SetActive(false);
+
+                // make player mortal again
+                playerHealthController.isInvincible = false;
             }
             else {
                 // Tutorial finished text
                 stageClearedText.gameObject.SetActive(true);
                 stageClearedText.text = String.Format("DEFEND THE BARN", currentStageIndex - 1);
 
+                // Fully heal player
+                playerHealthController.healForXPercentOfMissingHealth(100);
+
                 // heal barn fully
                 bool barnHealed = barnHealthController.healForXPercentOfMissingHealth(100);
                 yield return new WaitForSeconds(3.0f);
+                scoreTracker.gameObject.GetComponent<CanvasGroup>().alpha = 1;
                 stageClearedText.gameObject.SetActive(false);
             }
 
             // Set the currentStage active
             if (currentStageGameObject != null) currentStageGameObject.SetActive(true);
 
+        }
+    }
+
+    public IEnumerator WarnAboutMoose() {
+
+        for (int i = 0; i < numberOfBlinks; i++) {
+
+            mooseWarning.SetActive(true);
+            yield return new WaitForSeconds(blinkDurationOn);
+
+            mooseWarning.SetActive(false);
+            yield return new WaitForSeconds(blinkDurationOff);
         }
     }
 
